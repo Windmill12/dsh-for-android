@@ -18,6 +18,34 @@ $ ./scripts/install.sh phone        # build + install to a physical device
 $ ./scripts/install.sh emulator     # build + install to an emulator
 ```
 
+### Install a prebuilt APK
+
+Both APKs on the
+[Releases page](https://github.com/Windmill12/dsh-for-android/releases) are
+**self-contained** — the Node runtime, DSH's dependency tree, bash, ripgrep and
+CPython are all inside the package, so there is nothing else to install.
+
+| File | For |
+| --- | --- |
+| `AndroidDSH-0.2.0-arm64-v8a.apk` | **Real phones** (almost all modern devices) |
+| `AndroidDSH-0.2.0-x86_64.apk` | Android emulators (x86_64 images) |
+
+```bash
+adb install -r AndroidDSH-0.2.0-arm64-v8a.apk
+```
+
+Or copy the APK to the device and open it — you'll need to allow installing from
+unknown sources. Check your download against the attached `SHA256SUMS.txt`.
+
+Requires Android 8.0 (API 26) or newer, and ~600MB free for the install plus the
+first-launch runtime unpack. On first launch the app asks for "All files access"
+so the agent can work in `/sdcard/Documents/DSH`; decline it and the app falls
+back to its private directory with no loss of functionality.
+
+> The released APKs are **debug-signed**. Installing a future release over this
+> one works fine, but an APK signed with a different key requires uninstalling
+> first.
+
 The launcher icon uses the official DSH mark (the path from
 `dsh-web-frontend/dist/favicon.svg`) on brand blue `#4176e6` (read from the
 running UI's `--dsw-static-deepseek-500`), as an adaptive icon, plus a 24dp white
@@ -556,8 +584,9 @@ This repository is **source-only**: the prebuilt runtime inputs
 (`app/src/main/assets/*.pkg` and `app/src/main/jniLibs/`, ~398MB) are
 deliberately not committed, because they are build outputs and would bloat the
 repo badly. You must produce them yourself with the steps below. If you only
-want to *use* the app, download a ready APK from
-[Releases](../../releases) instead — those are self-contained.
+want to *use* the app, download a ready APK from the
+[Releases page](https://github.com/Windmill12/dsh-for-android/releases) instead —
+those are self-contained.
 
 ### 1. Bootstrap the toolchain
 

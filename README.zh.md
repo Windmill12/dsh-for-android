@@ -14,6 +14,31 @@ $ ./scripts/install.sh phone        # 构建 + 安装到真机
 $ ./scripts/install.sh emulator     # 构建 + 安装到模拟器
 ```
 
+### 直接安装现成 APK
+
+[Releases](https://github.com/Windmill12/dsh-for-android/releases) 里的两个 APK 都是
+**自包含**的——Node 运行时、DSH 依赖树、bash、ripgrep、CPython 全在包里，不需要再装
+任何东西。
+
+| 文件 | 适用 |
+| --- | --- |
+| `AndroidDSH-0.2.0-arm64-v8a.apk` | **真机**（绝大多数手机） |
+| `AndroidDSH-0.2.0-x86_64.apk` | Android 模拟器（x86_64 镜像） |
+
+```bash
+adb install -r AndroidDSH-0.2.0-arm64-v8a.apk
+```
+
+也可以把 APK 拷到手机上直接点开安装（需要允许"安装未知来源应用"）。下载后可用附带的
+`SHA256SUMS.txt` 校验。
+
+要求 Android 8.0（API 26）及以上，并预留约 600MB 空间（安装 + 首启解压运行时）。
+首启会申请"所有文件访问"权限，好让 agent 在 `/sdcard/Documents/DSH` 里工作；拒绝也不
+影响功能，app 会退回自己的私有目录。
+
+> 发行的 APK 是 **debug 签名**。后续版本可以直接覆盖安装；换成别的 key 签的包必须先
+> 卸载。
+
 桌面图标用的是 DSH 官方标识（取自 `dsh-web-frontend/dist/favicon.svg` 的那条 path）
 配品牌蓝 `#4176e6`（从运行中的界面读到的 `--dsw-static-deepseek-500`），做成自适应
 图标，另外给通知栏留了一版 24dp 的白色剪影。
@@ -438,8 +463,8 @@ dsh plugin --profile web version-exemptions   # 看已授予的豁免
 
 本仓库**只收源码**：预编译的运行时输入（`app/src/main/assets/*.pkg` 与
 `app/src/main/jniLibs/`，合计约 398MB）是构建产物，故意不入库。想直接装来用请从
-[Releases](../../releases) 下载现成 APK（已自包含运行时，装完即用）；想自己构建就按
-下面的步骤走一遍。
+[Releases 页面](https://github.com/Windmill12/dsh-for-android/releases) 下载现成 APK
+（已自包含运行时，装完即用）；想自己构建就按下面的步骤走一遍。
 
 工具链全部落在工作区的 `.toolchain/`（约 26GB，`.gitignore` 已排除），**不依赖系统包管理器**。
 需要 Linux x86_64 宿主、约 40GB 空闲磁盘，以及耐心——首次全量构建以小时计，
