@@ -1,0 +1,52 @@
+# ---- 本地工具链（JDK / Android SDK / NDK，约 26GB，不入库）----
+/.toolchain/
+
+# ---- Gradle ----
+/.gradle/
+build/
+/local.properties
+
+# ---- Android 构建产物 ----
+*.apk
+*.aab
+*.ap_
+*.dex
+/captures/
+.externalNativeBuild/
+.cxx/
+
+# 留档 APK（install.sh 复制过来的带版本号产物）统一走 GitHub Releases 分发，不入库。
+# 唯一的例外是校验和文本：dist/SHA256SUMS.txt 保留入库。
+/dist/*.apk
+
+# ---- IDE ----
+/.idea/
+*.iml
+*.hprof
+
+# ---- Node（DSH 侧）----
+node_modules/
+.pnpm-store/
+
+# ---- 由 prepare-app-assets.sh 生成的构建输入（约 400MB，构建产物，不入库）----
+# 本仓库是纯源码仓库：运行时输入要靠 scripts/ 自己交叉编译出来，
+# 详见 README「构建」一节（README.md / README.zh.md）。
+/app/src/main/assets/dsh-runtime.pkg
+/app/src/main/assets/python-runtime.pkg
+/app/src/main/jniLibs/
+
+# ---- 工具运行时状态 ----
+/.reasonix/
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+
+# ---- 其他 ----
+.DS_Store
+*.log
+
+# ---- 凭证（绝不入库）----
+api_key.txt
+*.key
+.env

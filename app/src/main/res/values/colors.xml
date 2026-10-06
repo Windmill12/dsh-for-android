@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+      DSH 前端的品牌蓝。取值方式：在运行中的界面里读 document 上解析后的
+      dsw-static-deepseek-500 变量，得到 #4176e6（主按钮就是这个颜色）。
+      用同一个值，图标和 app 内的观感才一致。
+    -->
+    <color name="ic_launcher_background">#4176E6</color>
+</resources>

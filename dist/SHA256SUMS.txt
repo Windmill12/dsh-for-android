@@ -1,0 +1,2 @@
+1b58d871de59da6ddac5dde78107c778a5926dd46748ac55f9953cc4e8a8dcbd  AndroidDSH-0.2.0-arm64-v8a.apk
+8489da96aa6b22e2cac53b1ace1bcea8c2219db5050602ff94b9f85be616adcf  AndroidDSH-0.2.0-x86_64.apk

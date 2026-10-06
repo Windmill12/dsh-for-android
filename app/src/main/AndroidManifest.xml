@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- DSH 需要访问 DeepSeek API -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!-- 前台服务：用户切出去以后 agent 还要继续跑 -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!--
+      工作目录默认放在 /sdcard/Documents/DSH，让文件管理器 / USB / 云盘同步都能
+      直接看到 agent 产出的文件。
+
+      这需要"所有文件访问"（MANAGE_EXTERNAL_STORAGE）：SAF / MediaStore 交出来的是
+      Content URI，对内嵌的 node / bash 子进程毫无意义，只有真实文件路径可用。
+      没授权时 app 会退回自己的私有外部目录，功能不受影响，只是路径比较深。
+
+      下面两个是 API 28 及以下（以及 API 29 的 requestLegacyExternalStorage）用的，
+      新版系统上已被 MANAGE_EXTERNAL_STORAGE 取代。
+    -->
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="29" />
+
+    <application
+        android:label="@string/app_name"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:requestLegacyExternalStorage="true"
+        android:theme="@android:style/Theme.Material.Light.NoActionBar">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustResize"
+            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout|uiMode">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!--
+          specialUse 子类型：这不是数据同步也不是媒体播放，而是"在本机跑一个
+          agent 运行时"。Google Play 需要为此填表；自签名分发无影响。
+        -->
+        <service
+            android:name=".DshServerService"
+            android:exported="false"
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="Runs the embedded DeepSeek Harness agent runtime on loopback for this app's own UI." />
+        </service>
+    </application>
+</manifest>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  自适应图标（API 26+，正好是本 app 的 minSdk，所以不需要再出 png 兜底）。
+  monochrome 是给 Android 13+ 的「主题图标」用的：系统拿它的 alpha 去套壁纸取色。
+  旧版本会跳过这个不认识的标签。
+-->
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <background android:drawable="@color/ic_launcher_background" />
+    <foreground android:drawable="@drawable/ic_launcher_foreground" />
+    <monochrome android:drawable="@drawable/ic_launcher_foreground" />
+</adaptive-icon>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+      桌面 / 最近任务里显示的名字。想换成更短的 "DSH" 就改这里一处。
+      注意 application 和 launcher activity 都要带上，某些 ROM 的桌面只读 activity 的。
+    -->
+    <string name="app_name">AndroidDSH</string>
+</resources>
